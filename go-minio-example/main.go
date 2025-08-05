@@ -18,9 +18,9 @@ import (
 // Các biến cấu hình MinIO của bạn
 // THAY THẾ CÁC GIÁ TRỊ NÀY VỚI THÔNG TIN MINIO CỦA BẠN!
 const (
-	minioEndpoint   = "https://minio-devops.infocms.com.vn"      // Hoặc https://
-	minioAccessKey  = "Y3APLQI8mI8A5IeC2iVcq"                    // Thay thế bằng Access Key của bạn
-	minioSecretKey  = "BF6BOUqvzf9rP135XQtpw74g3rBTdqwskthYKJcV" // Thay thế bằng Secret Key của bạn
+	minioEndpoint   = "minio.example.com"      // Hoặc https://
+	minioAccessKey  = "Y3APLQ"                    // Thay thế bằng Access Key của bạn
+	minioSecretKey  = "BF6BOUqvzf9rP1" // Thay thế bằng Secret Key của bạn
 	minioBucketName = "my-go-bucket"                             // Tên bucket chúng ta sẽ tạo/sử dụng
 	minioRegion     = "hn-cmc"                                   // Vùng ảo, MinIO thường không quan tâm nhiều đến vùng
 )
