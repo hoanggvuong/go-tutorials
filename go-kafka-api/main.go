@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/segmentio/kafka-go"
 )
@@ -19,8 +20,8 @@ const (
 
 // Cấu trúc dữ liệu cho tin nhắn
 type Message struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
+	Key   string          `json:"key"`
+	Value json.RawMessage `json:"value"`
 }
 
 var kafkaWriter *kafka.Writer
@@ -28,9 +29,11 @@ var kafkaWriter *kafka.Writer
 func init() {
 	// Khởi tạo Kafka Writer một lần khi chương trình bắt đầu
 	kafkaWriter = &kafka.Writer{
-		Addr:     kafka.TCP(kafkaBroker),
-		Topic:    topic,
-		Balancer: &kafka.LeastBytes{},
+		Addr:         kafka.TCP(kafkaBroker),
+		Topic:        topic,
+		Balancer:     &kafka.LeastBytes{},
+		RequiredAcks: kafka.RequireAll,
+		BatchTimeout: 5 * time.Millisecond,
 	}
 }
 
@@ -70,7 +73,7 @@ func publishHandler(w http.ResponseWriter, r *http.Request) {
 	// Gửi tin nhắn đến Kafka
 	err = kafkaWriter.WriteMessages(context.Background(), kafka.Message{
 		Key:   []byte(msg.Key),
-		Value: []byte(msg.Value),
+		Value: (msg.Value),
 	})
 	if err != nil {
 		log.Printf("Lỗi khi gửi tin nhắn đến Kafka: %v", err)
